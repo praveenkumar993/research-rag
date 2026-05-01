@@ -787,12 +787,15 @@
   }
 
   async function loadPapers() {
+    console.log("loadPapers called");
+    console.log("API URL:", API);
     try {
-      const res  = await fetch(`${API}/api/papers`);
+      const res = await fetch(`${API}/api/papers`);
+      console.log("Response status:", res.status);
       const data = await res.json();
+      console.log("Data received:", data);
       const list = document.getElementById('papers-list');
-      const cnt  = document.getElementById('paper-count');
-
+      console.log("papers-list element:", list);
       if (data.papers && data.papers.length > 0) {
         list.innerHTML = data.papers.map((p, i) => `
           <div class="paper-item">
@@ -800,11 +803,12 @@
             <span class="paper-name">${p}</span>
           </div>
         `).join('');
-        cnt.innerHTML = `<span>${data.papers.length}</span> papers indexed`;
+        console.log("Papers rendered:", data.papers.length);
       } else {
         list.innerHTML = '<div style="padding:12px 4px;font-family:JetBrains Mono,monospace;font-size:11px;color:var(--dim)">No papers found.</div>';
       }
-    } catch {
+    } catch(e) {
+      console.error("loadPapers error:", e);
       document.getElementById('papers-list').innerHTML =
         '<div style="padding:12px 4px;font-family:JetBrains Mono,monospace;font-size:11px;color:var(--dim)">Could not load.</div>';
     }
