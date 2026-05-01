@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: research-rag
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: HF_HUB_DISABLE_SYMLINKS_WARNING   # ← add this
+        value: "1"
+    disk:
+      name: vectorstore
+      mountPath: /app/vectorstore
+      sizeGB: 1
