@@ -14,11 +14,13 @@ from rag_engine import load_vectorstore, build_rag_chain, get_loaded_papers, que
 vectorstore = None
 rag_chain = None
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global vectorstore, rag_chain
     print("🚀 Loading vectorstore and building RAG chain...")
+    print(f"📁 Working directory: {os.getcwd()}")          # ← add this
+    print(f"📁 Vectorstore path: {os.path.abspath('vectorstore')}")  # ← add this
+    print(f"📁 Vectorstore exists: {os.path.exists('vectorstore')}")  # ← add this
     try:
         vectorstore = load_vectorstore()
         rag_chain = build_rag_chain(vectorstore)
@@ -26,7 +28,6 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"❌ Failed to load vectorstore: {e}")
     yield
-
 
 app = FastAPI(title="Research RAG API", lifespan=lifespan)
 
