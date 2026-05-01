@@ -186,7 +186,7 @@ Visit: http://localhost:8000
 
 | Layer | Technology |
 |-------|-----------|
-| LLM | Google Gemini 1.5 Pro |
+| LLM | gemini-2.0-flash-lite |
 | Embeddings | HuggingFace (all-MiniLM-L6-v2) |
 | Vector Store | ChromaDB |
 | Orchestration | LangChain |
