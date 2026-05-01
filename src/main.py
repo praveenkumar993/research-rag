@@ -77,8 +77,21 @@ def health():
         "rag_chain_ready": rag_chain is not None,
     }
 
-
 # Serve frontend
+from fastapi.responses import HTMLResponse
+
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
-if os.path.exists(frontend_path):
-    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+
+@app.get("/", response_class=HTMLResponse)
+async def serve_frontend():
+    index_file = os.path.join(frontend_path, "index.html")
+    with open(index_file, "r", encoding="utf-8") as f:
+        content = f.read()
+    return HTMLResponse(
+        content=content,
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+        }
+    )

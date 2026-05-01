@@ -83,8 +83,10 @@ def load_vectorstore():
 
 
 def get_loaded_papers(vectorstore) -> list[str]:
-    collection = vectorstore._collection
-    results = collection.get(include=["metadatas"])
+    import chromadb
+    client = chromadb.PersistentClient(path=VECTORSTORE_DIR)
+    col = client.get_collection("research_papers")
+    results = col.get(include=["metadatas"])
     names = set()
     for meta in results["metadatas"]:
         if meta and "paper_name" in meta:
